@@ -1,6 +1,7 @@
 excitation_bp: visualizing how deep networks make decisions
 =======
 Sam Greydanus. July 2017. MIT License.
+
 Oregon State University College of Engineering. [Explainable AI Project](http://twitter.com/DARPA/status/872547502616182785). Supported by DARPA.
 
 _Written in PyTorch_
