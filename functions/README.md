@@ -7,6 +7,7 @@ These extensions have been implemented and tested. You can find them in the .py 
 
 * [linear](http://pytorch.org/docs/master/nn.html?highlight=linear#linear-layers)
 * [1D, 2D, and 3D convolutions](http://pytorch.org/docs/master/nn.html?highlight=linear#conv2d)
+* [tanh](http://pytorch.org/docs/master/nn.html?highlight=tanh#torch.nn.functional.tanh)
 
 No changes necessary
 --------
@@ -23,8 +24,6 @@ See page 8 of [original paper](https://arxiv.org/abs/1608.00507) for discussion.
 * [average pooling](http://pytorch.org/docs/master/nn.html?highlight=linear#avgpool2d)
 * [batch norm](http://pytorch.org/docs/master/nn.html?highlight=linear#batchnorm2d)
 * [local response normalization (LRN)](https://github.com/pytorch/pytorch/issues/653)
-* positive & negative elementwise activations (e.g. **tanh**)
-	* [tanh](http://pytorch.org/docs/master/torch.html?highlight=tanh#torch.tanh) is coming soon (Written 18 July 2017)
 
 How to write your own extensions
 --------

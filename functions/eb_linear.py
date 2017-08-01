@@ -51,9 +51,14 @@ class EBLinear(Function):
 
     ### *EB MODE* the excitation backprop part    ###
         grad_input *= input_
+        print(torch.sum(grad_input))
     ### *EB MODE* end of excitation backprop part ###
 
         if bias is not None:
             return grad_input, grad_weight, grad_bias
         else:
             return grad_input, grad_weight
+
+def eb_linear(input, weight, bias=None):
+    state = EBLinear()
+    return state(input, weight) if bias is None else state(input, weight, bias)
