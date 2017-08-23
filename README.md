@@ -47,5 +47,5 @@ All code is written in Python 3.6. You will need:
 
  * NumPy
  * Matplotlib
- * [PyTorch](http://pytorch.org/): easier to write and debug than TensorFlow :)
+ * [PyTorch 0.2](http://pytorch.org/): easier to write and debug than TensorFlow :)
  * [Jupyter](https://jupyter.org/)

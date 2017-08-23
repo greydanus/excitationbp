@@ -32,20 +32,20 @@ def contrastive_eb(model, X, layer_top, layer_second, target=None, top_dh=None):
     current implementation performs three backprops for each one pass of excitation
     backprop. i'll release an updated version after the next pytorch release.
     '''
-    
-    # backprop positive signal
     optimizer = torch.optim.SGD([X], lr=1)
-    torch.autograd.backward(top_h_, top_dh, retain_variables=True) # backward hooks are called here
+
+    # backprop positive signal
+    torch.autograd.backward(top_h_, top_dh.clone(), retain_graph=True) # backward hooks are called here
     pos = second_dh_.data.clone()
-    
+
     # backprop negative signal
-    optimizer.zero_grad()
-    torch.autograd.backward(top_h_, -top_dh, retain_variables=True) # backward hooks are called here
+    optimizer.zero_grad() ; model.zero_grad()
+    torch.autograd.backward(top_h_, -top_dh.clone(), retain_graph=True) # backward hooks are called here
     neg = second_dh_.data.clone()
     
     # backprop contrastive signal
-    optimizer.zero_grad()
-    torch.autograd.backward(second_h_, pos + neg, retain_variables=True) # backward hooks are called here
+    optimizer.zero_grad() ; model.zero_grad()
+    torch.autograd.backward(second_h_, (pos + neg).clone(), retain_graph=True) # backward hooks are called here
     
     h1.remove() ; h3.remove() ; h4.remove()
     if target is not None: h2.remove()
@@ -70,7 +70,7 @@ def eb(model, X, layer_top, target=None, top_dh=None):
     
     # backprop positive signal
     optimizer = torch.optim.SGD([X], lr=1)
-    torch.autograd.backward(top_h_, top_dh) # backward hooks are called here
+    torch.autograd.backward(top_h_, top_dh.clone()) # backward hooks are called here
 
     h1.remove()
     if target is not None: h2.remove()
