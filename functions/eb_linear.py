@@ -26,7 +26,7 @@ class EBLinear(Function):
     ### *EB MODE* start excitation backprop part  ###
         s = 1 if torch.sum(grad_output.data) > 0 else -1
         weight_ = (weight.clone()*s).clamp(min=0)
-        input_ = input.clone() ; input_ -= input_.min()
+        input_ = input.clone() #; input_ -= input_.min()
 
         grad_output /= torch.abs(input.mm(weight_.t())) + 1e-10
 
@@ -45,7 +45,7 @@ class EBLinear(Function):
             grad_bias = grad_output.sum(0).squeeze(0)
 
     ### *EB MODE* the excitation backprop part    ###
-        grad_input = grad_input*input_ #; print('\t', torch.sum(grad_input.data))
+        grad_input = grad_input*input_ ; print('\t', torch.sum(grad_input.data))
     ### *EB MODE* end of excitation backprop part ###
 
         return grad_input, grad_weight, grad_bias

@@ -26,8 +26,6 @@ def use_eb(use_eb):
     if use_eb:
         print("using excitation backprop autograd mode:")
 
-        # print("\t->replacing torch.nn.backends.thnn.backend.Linear with EBLinear...")
-        # torch.nn.backends.thnn.backend.Linear = EBLinear
         print("\t->replacing torch.nn.functional.linear with eb_linear...")
         torch.nn.functional.linear = EBLinear.apply
 
@@ -47,8 +45,6 @@ def use_eb(use_eb):
         print("using regular backprop autograd mode:")
 
         print("\t->restoring torch.nn.backends.thnn.backend.Linear...")
-        # torch.nn.backends.thnn.backend.Linear = real_fs[0]
-        raise NotImplementedError("need to fix indexing")
         torch.nn.functional.linear = real_fs[0]
 
         print("\t->restoring torch.nn.functional.conv{1,2,3}d...")
