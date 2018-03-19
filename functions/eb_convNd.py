@@ -9,12 +9,10 @@ import torch.backends.cudnn as cudnn
 
 from torch.nn import _functions
 from torch.nn.modules import utils
-from torch.nn._functions.padding import ConstantPad2d
+from torch.nn import ConstantPad2d
 from torch.nn.modules.utils import _single, _pair, _triple
 
-
 _thnn_convs = {}
-
 
 class EBConvNd(Function):
 
@@ -34,7 +32,6 @@ class EBConvNd(Function):
         self.groups = groups
 
     def forward(self, input, weight, bias=None):
-        # print("forward EBConvND")
         k = input.dim()
         self.save_for_backward(input, weight, bias)
         input = input.contiguous()
@@ -46,47 +43,46 @@ class EBConvNd(Function):
         return output
 
     def backward(self, grad_output):
-        # print("backward EBConvND")
         k = grad_output.dim()
         grad_output = grad_output.contiguous()
         input, weight, bias = self.saved_tensors
         input = input.contiguous()
+        
+        ### start EB-SPECIFIC CODE  ###
+        use_pos_weights = grad_output.sum() > 0
+        # print("this is a {} conv layer ({})"
+        #       .format('pos' if use_pos_weights else 'neg', grad_output.sum()))
+        weight = weight.clamp(min=0) if use_pos_weights else weight.clamp(max=0).abs()
+        bias = bias.clamp(min=0) if use_pos_weights else bias.clamp(max=0).abs()
 
-    ### *EB MODE* the excitation backprop part   ###
-
-        s = 1 if torch.sum(grad_output) > 0 else -1
-        weight_ = (weight.clone()*s).clamp(min=0)
-        input_ = input.clone() ; input_ -= input_.min()
-        # if torch.sum(input_) != torch.sum(input):
-        #     print('\tinput contains some negative values...shifting input so min=0')
-
-        k = input_.dim()
-        input_ = input_.contiguous()
+        # a mini forward pass, using the positive weights
+        input = input - input.min() if input.min() < 0 else input
+        k = input.dim()
+        input = input.contiguous()
         if k == 3:
-            input_, weight_ = _view4d(input_, weight_)
-        norm_factor = self._update_output(input_, weight_, None)
-        # don't add bias as you would in a normal forward pass...
+            input, weight = _view4d(input, weight)
+        norm_factor = self._update_output(input, weight, bias)
         if k == 3:
             norm_factor, = _view3d(norm_factor)
-        grad_output /= torch.abs(norm_factor) + 1e-10
-
-    ### *EB MODE* end of excitation backprop part ##
+            
+        grad_output /= norm_factor + 1e-20 # normalize
+        ### stop EB-SPECIFIC CODE  ###
 
         if k == 3:
-            grad_output, input_, weight_ = _view4d(grad_output, input_, weight_)
-
-        # *EB MODE* remove the if statement that's usually here:
-        grad_input = (self._grad_input(input_, weight_, grad_output))
+            grad_output, input, weight_ = _view4d(grad_output, input, weight)
+            
+        grad_input = (self._grad_input(input, weight, grad_output))
 
         grad_weight, grad_bias = (
-            self._grad_params(input_, weight_, bias, grad_output)
+            self._grad_params(input, weight, bias, grad_output)
             if any(self.needs_input_grad[1:]) else (None, None))
         if k == 3:
             grad_input, grad_weight, = _view3d(grad_input, grad_weight)
-
-    ### *EB MODE* the excitation backprop part   ###
-        grad_input *= input_
-    ### *EB MODE* end of excitation backprop part ###
+    
+        ### start EB-SPECIFIC CODE  ###
+        grad_input *= input
+#         grad_input *= 1/grad_input.sum() # extra normalization...not rigorous
+        ### stop EB-SPECIFIC CODE  ###
 
         return grad_input, grad_weight, grad_bias
 
