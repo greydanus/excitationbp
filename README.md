@@ -22,6 +22,34 @@ We performed experiments on
  * a fully-connected MNIST classifier (see [**`tutorial-mnist.ipynb`**](https://nbviewer.jupyter.org/github/greydanus/excitation_bp/blob/master/tutorial-mnist.ipynb))
  * a VGG16 ImageNet classifier (see [**`tutorial-imagenet.ipynb`**](https://nbviewer.jupyter.org/github/greydanus/excitation_bp/blob/master/tutorial-imagenet.ipynb))
 
+How to use
+--------
+
+A minimal example of how to install/use this project:
+
+`# clone the repo
+git clone https://github.com/greydanus/excitationbp.git
+# enter the repo
+cd excitationbp
+# install the package
+python setup.py install
+# enter the python command line
+python
+# enter excitation backprop mode
+# (this replaces some of PyTorch's internal autograd functions)
+eb.use_eb(True)
+# perform excitation backprop
+#		model: a PyTorch module
+#		inputs: a PyTorch Variable that will be passed to the model
+#		prob_outputs: probability distribution over outputs
+#			(usually all zeros except for a 1 on the neuron you want to inspect)
+#		contrastive: boolean, whether to use EB or contrastive EB
+#		target_layer: int, relates to layer we want to visualize. 0 refers to input
+prob_inputs = eb.utils.excitation_backprop(model, inputs, prob_outputs, contrastive=False, target_layer=0)`
+
+Check out the two Jupyter notebooks for detailed examples.
+
+
 Results
 --------
 

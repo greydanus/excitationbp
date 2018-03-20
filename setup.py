@@ -1,4 +1,4 @@
-# excitation_bp: visualizing how deep networks make decisions
+# excitationbp: visualizing how deep networks make decisions
 # Sam Greydanus. July 2017. MIT License.
 
 from setuptools import setup, find_packages

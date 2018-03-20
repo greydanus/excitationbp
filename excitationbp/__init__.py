@@ -1,12 +1,18 @@
 # excitation_bp: visualizing how deep networks make decisions
 # Sam Greydanus. July 2017. MIT License.
 
+from __future__ import absolute_import
+
+from . import functions
+
 from .functions.eb_linear import *
 from .functions.eb_convNd import *
 from .functions.eb_AvgPoolNd import *
 
 from .utils import *
 import copy
+
+__version__ = '0.1'
 
 real_fs = []
 real_fs.append(copy.deepcopy(torch.nn.functional.linear))
