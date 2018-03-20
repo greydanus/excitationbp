@@ -45,7 +45,8 @@ eb.use_eb(True)
 #			(usually all zeros except for a 1 on the neuron you want to inspect)
 #		contrastive: boolean, whether to use EB or contrastive EB
 #		target_layer: int, relates to layer we want to visualize. 0 refers to input
-prob_inputs = eb.utils.excitation_backprop(model, inputs, prob_outputs, contrastive=False, target_layer=0)```
+prob_inputs = eb.utils.excitation_backprop(model, inputs, prob_outputs, contrastive=False, target_layer=0)
+```
 
 Check out the two Jupyter notebooks for detailed examples.
 
