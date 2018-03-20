@@ -1,4 +1,4 @@
-excitation_bp: visualizing how deep networks make decisions
+excitationbp: visualizing how deep networks make decisions
 =======
 Sam Greydanus. March 2018. MIT License.
 
