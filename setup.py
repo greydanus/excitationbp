@@ -3,7 +3,7 @@
 
 from setuptools import setup, find_packages
 
-setup(name='excitation_bp',
+setup(name='excitationbp',
       version='0.1',
       description='A minimal implementation of excitation backprop for PyTorch',
       author='Sam Greydanus',
