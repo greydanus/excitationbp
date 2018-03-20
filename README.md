@@ -1,12 +1,12 @@
 excitation_bp: visualizing how deep networks make decisions
 =======
-Sam Greydanus. July 2017. MIT License.
+Sam Greydanus. March 2018. MIT License.
 
 Oregon State University College of Engineering. [Explainable AI Project](http://twitter.com/DARPA/status/872547502616182785). Supported by DARPA.
 
 _Written in PyTorch_
 
-![vgg16-contrast-eb.png](static/vgg16-contrast-eb.png)
+![imagenet-ceb.png](static/imagenet-ceb.png)
 
 About
 --------
@@ -17,29 +17,30 @@ Contrastive EB is a little different. We backprop both a positive and a negative
 * excite the neuron.
 * not inhibit the neuron.
 
-We performed experiments on the VGG16 model. Results can be explored and replicated using [**`tutorial.ipynb`**](https://nbviewer.jupyter.org/github/greydanus/excitation_bp/blob/master/tutorial.ipynb)
+We performed experiments on
+
+ * a fully-connected MNIST classifier (see [**`tutorial-mnist.ipynb`**](https://nbviewer.jupyter.org/github/greydanus/excitation_bp/blob/master/tutorial-mnist.ipynb))
+ * a VGG16 ImageNet classifier (see [**`tutorial-imagenet.ipynb`**](https://nbviewer.jupyter.org/github/greydanus/excitation_bp/blob/master/tutorial-imagenet.ipynb))
 
 Results
 --------
 
 Regular EB (has a hard time separating neuron-specific signals)
 
-![vgg16-eb.png](static/vgg16-eb.png)
+![imagenet-eb.png](static/imagenet-eb.png)
 
 Contrastive EB (separates neuron-specific signals well)
 
-![vgg16-contrast-eb.png](static/vgg16-contrast-eb.png)
+![imagenet-ceb.png](static/imagenet-ceb.png)
 
-![vgg16-pooling-eb.png](static/vgg16-pooling-eb.png)
+Contrastive EB to a mid-level conv. layer
 
-![vgg16-hidden-eb.png](static/vgg16-hidden-eb.png)
+![imagenet-pool-ceb.png](static/imagenet-pool-ceb.png)
 
 Runtime
 --------
 
-Computing a regular EB signal requires a single forward pass and a single backward pass. Theoretically, the contrastive signal should as well.
-
-Owing to the quirks of the current PyTorch version, the current implementation requires a single pass forward and three backward passes. The next release of PyTorch will include a `torch.autograd.grad` functions which will resolve this issue. Check back soon! _(Written 18 July 2017)_
+Computing a regular EB signal requires a single forward pass and a single backward pass. The same goes for the contrastive EB signal now (as of this update)
 
 Dependencies
 --------
@@ -47,5 +48,5 @@ All code is written in Python 3.6. You will need:
 
  * NumPy
  * Matplotlib
- * [PyTorch 0.2](http://pytorch.org/): easier to write and debug than TensorFlow :)
+ * [PyTorch 0.4](http://pytorch.org/): easier to write and debug than TensorFlow :)
  * [Jupyter](https://jupyter.org/)

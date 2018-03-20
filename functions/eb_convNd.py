@@ -49,11 +49,10 @@ class EBConvNd(Function):
         input = input.contiguous()
         
         ### start EB-SPECIFIC CODE  ###
-        use_pos_weights = grad_output.sum() > 0
         # print("this is a {} conv layer ({})"
-        #       .format('pos' if use_pos_weights else 'neg', grad_output.sum()))
-        weight = weight.clamp(min=0) if use_pos_weights else weight.clamp(max=0).abs()
-        bias = bias.clamp(min=0) if use_pos_weights else bias.clamp(max=0).abs()
+        #       .format('pos' if torch.use_pos_weights else 'neg', grad_output.sum()))
+        weight = weight.clamp(min=0) if torch.use_pos_weights else weight.clamp(max=0).abs()
+        bias = bias.clamp(min=0) if torch.use_pos_weights else bias.clamp(max=0).abs()
 
         # a mini forward pass, using the positive weights
         input = input - input.min() if input.min() < 0 else input

@@ -22,11 +22,9 @@ class EBLinear(Function):
         input, weight, bias = ctx.saved_variables
 
         ### start EB-SPECIFIC CODE  ###
-        
-        use_pos_weights = grad_output.sum().data[0] > 0
         # print("this is a {} linear layer ({})"
-        #       .format('pos' if use_pos_weights else 'neg', grad_output.sum().data[0]))
-        weight = weight.clamp(min=0) if use_pos_weights else weight.clamp(max=0).abs()
+        #       .format('pos' if torch.use_pos_weights else 'neg', grad_output.sum().data[0]))
+        weight = weight.clamp(min=0) if torch.use_pos_weights else weight.clamp(max=0).abs()
         
         input.data = input.data - input.data.min() if input.data.min() < 0 else input.data
         grad_output /= input.mm(weight.t()).abs() + 1e-10 # normalize

@@ -20,6 +20,10 @@ real_fs.append(copy.deepcopy(torch.nn.functional.avg_pool2d))
 def use_eb(use_eb, verbose=True):
     global real_torch_funcs
     if use_eb:
+
+        # this is a super-hacky way to indicate whether to use pos or neg weights
+        torch.use_pos_weights = True
+
         if verbose: print("using excitation backprop autograd mode:")
 
         if verbose: print("\t->replacing torch.nn.functional.linear with eb_linear...")
