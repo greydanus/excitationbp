@@ -27,7 +27,8 @@ How to use
 
 A minimal example of how to install/use this project:
 
-```# clone the repo
+```python
+# clone the repo
 git clone https://github.com/greydanus/excitationbp.git
 # enter the repo
 cd excitationbp
