@@ -36,8 +36,10 @@ cd excitationbp
 python setup.py install
 # enter the python command line
 python
+# import the EB module
+import excitationbp as eb
 # enter excitation backprop mode
-# (this replaces some of PyTorch's internal autograd functions)
+# 		(this replaces some of PyTorch's internal autograd functions)
 eb.use_eb(True)
 # perform excitation backprop
 #		model: a PyTorch module
