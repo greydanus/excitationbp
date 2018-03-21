@@ -78,7 +78,7 @@ I trained a simple fully-connected network on MNIST data + noise. Regular EB, ag
 
 Contrastive EB separated the '1' vs '5' signals.
 
-![mnist-ceb.png](static/mnist-ceb.png)
+![mnist-ceb.png](static/mnist-eb.png)
 
 Runtime
 --------
