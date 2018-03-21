@@ -74,11 +74,11 @@ Noisy-MNIST Results
 
 I trained a simple fully-connected network on MNIST data + noise. Regular EB, again, had a hard time separating neuron-specific signals.
 
-![mnist-eb.png](static/imagenet-eb.png)
+![mnist-eb.png](static/mnist-eb.png)
 
 Contrastive EB separated the '1' vs '5' signals.
 
-![mnist-ceb.png](static/imagenet-ceb.png)
+![mnist-ceb.png](static/mnist-ceb.png)
 
 Runtime
 --------
