@@ -54,7 +54,7 @@ prob_inputs = eb.utils.excitation_backprop(model, inputs, prob_outputs, contrast
 Check out the two Jupyter notebooks for detailed examples.
 
 
-Results
+ImageNet Results
 --------
 
 Regular EB (has a hard time separating neuron-specific signals)
@@ -68,6 +68,17 @@ Contrastive EB (separates neuron-specific signals well)
 Contrastive EB to a mid-level conv. layer
 
 ![imagenet-pool-ceb.png](static/imagenet-pool-ceb.png)
+
+Noisy-MNIST Results
+--------
+
+I trained a simple fully-connected network on MNIST data + noise. Regular EB, again, had a hard time separating neuron-specific signals.
+
+![mnist-eb.png](static/imagenet-eb.png)
+
+Contrastive EB separated the '1' vs '5' signals.
+
+![mnist-ceb.png](static/imagenet-ceb.png)
 
 Runtime
 --------
