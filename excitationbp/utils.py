@@ -38,6 +38,8 @@ def excitation_backprop(model, inputs, prob_outputs, contrastive=False, target_l
     
     _ = model(inputs)
     h1.remove() ; h2.remove() ; h3.remove()
+    if target_layer == 0:
+        target_h_ = inputs # sometimes the user will modify the input before first module
 
     # do regular eb
     if not contrastive:
